@@ -1,0 +1,136 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Treasure hunter</title>
+<body>
+<script src="Pixi/pixi.min.js"></script>
+<script src="Pixi/pixi-sound.js"></script>
+
+<script src="punkJS/World.js"></script>
+<script src="punkJS/FPClass.js"></script>
+<script src="punkJS/PImage.js"></script>
+<script src="punkJS/Entity.js"></script>
+<script src="punkJS/PInput.js"></script>
+<script src="punkJS/Text.js"></script>
+<script src="punkJS/SpriteMap.js"></script>
+<script src="punkJS/Sfx.js"></script>
+
+<script src="game/InitialAssets.js"></script>
+<script src="game/Global.js"></script>
+<script src="game/Explorer.js"></script>
+<script src="game/Door.js"></script>
+<script src="game/Dungeon.js"></script>
+<script src="game/Treasure.js"></script>
+<script src="game/Blob.js"></script>
+
+<script src="game/mainWorld.js"></script>
+<script src="game/endWorld.js"></script>
+<script>
+
+//Aliases
+let Application = PIXI.Application,
+    loader = PIXI.loader,
+    resources = PIXI.loader.resources,
+    Graphics = PIXI.Graphics,
+    TextureCache = PIXI.utils.TextureCache,
+    Sprite = PIXI.Sprite,
+    Text = PIXI.Text,
+    Container = PIXI.Container,
+    TextStyle = PIXI.TextStyle;
+
+//Create a Pixi Application
+let app = new Application({
+    width: 512, 
+    height: 512,                       
+    antialiasing: true, 
+    transparent: false, 
+    resolution: 1
+  }
+);
+
+//Add the canvas that Pixi automatically created for you to the HTML document
+document.body.appendChild(app.view);
+loader.add(Object.values(Assets)).load(setup);
+Input.init();
+
+//Define variables that might be used in more 
+//than one function
+let state, explorer, treasure, blobs, chimes, exit, player, dungeon,
+    door, healthBar, message, gameScene, gameOverScene, enemies, id;
+
+function setup() {
+
+  //Make the game scene and add it to the stage
+  gameScene = new mainWorld();
+  FP.World = gameScene;
+
+
+
+  //Create the `gameOver` scene
+  gameOverScene = new World();
+  app.stage.addChild(gameOverScene);
+
+  //Make the `gameOver` scene invisible when the game first starts
+  gameOverScene.visible = false;
+
+  //Create the text sprite and add it to the `gameOver` scene
+  /*let style = new TextStyle({
+    fontFamily: "Futura",
+    fontSize: 64,
+    fill: "white"
+  });
+  message = new Text("The End!", style);
+  message.x = 120;
+  message.y = app.stage.height / 2 - 32;
+  gameOverScene.addChild(message);*/
+
+  //Start the game loop 
+  app.ticker.add(delta => update(delta));
+}
+
+
+function update(delta){
+
+    FP.World.update();
+    Input.ResetValues();
+}
+
+/* Helper functions */
+
+function contain(sprite, container) {
+
+  let collision = undefined;
+
+  //Left
+  if (sprite.x < container.x) {
+    sprite.x = container.x;
+    collision = "left";
+  }
+
+  //Top
+  if (sprite.y < container.y) {
+    sprite.y = container.y;
+    collision = "top";
+  }
+
+  //Right
+  if (sprite.x + sprite.width > container.width) {
+    sprite.x = container.width - sprite.width;
+    collision = "right";
+  }
+
+  //Bottom
+  if (sprite.y + sprite.height > container.height) {
+    sprite.y = container.height - sprite.height;
+    collision = "bottom";
+  }
+
+  //Return the `collision` value
+  return collision;
+}
+
+
+
+</script>
+</body>
+
+
