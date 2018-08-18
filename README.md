@@ -62,9 +62,13 @@ Limited keyboard support for the momment
 
 ------
 
-Development disclaimer:
+Development Notes:
+- There source comes with the more complex pixi example ported to the framework
+- No packaged or minified version for the moment
 - I will update the framework to add the stuff that i will use in my future games so dont expect full flashpunk support unless its not done by contributors or required by my games.
 - At some point I will add a more advanced collision system (more advanced than the flashpunk one) that I did for a previous game
 - Possible new little changes in the future cause im porting Puzzle Cross Pirates right now so expect new stuff in order to be able to make ios, android, amazon apps soon
+- Sorry about the english typos
+- Im not used to github sorry for possible mistakes related to it!
 
 https://www.questtracers.com/
